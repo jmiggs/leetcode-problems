@@ -32,7 +32,7 @@ var twoCitySchedCost = function(costs) {
       }
       
       if (costsB === idxs.length/2 && costsA === idxs.length/2 ) {
-          break
+          break;
       }
        
       if (costs[currIdx][0] < costs[currIdx][1]) {
