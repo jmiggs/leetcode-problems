@@ -80,31 +80,54 @@
 // console.log(removeElement([3,2,2,3], 3))
 
 
-var rotate = function(nums, k) {
+// var rotate = function(nums, k) {
     
-  let l = nums.length
-  let i = 0
+//   let l = nums.length
+//   let i = 0
   
-  let curr = nums[i]
+//   let curr = nums[i]
   
-  while (l >= 0) {
-      let nextIdx = (i + k) % nums.length;
-      let temp = nums[nextIdx];
+//   while (l >= 0) {
+//       let nextIdx = (i + k) % nums.length;
+//       let temp = nums[nextIdx];
       
-      nums[nextIdx] = curr
-      curr = temp
-      i = nextIdx
-      l--
-      console.log(i, nums, l)
-  }
+//       nums[nextIdx] = curr
+//       curr = temp
+//       i = nextIdx
+//       l--
+//       console.log(i, nums, l)
+//   }
 
+// };
+
+// let arr = [-1,-100,3,99]
+// let arr2 = [1,2,3,4,5,6,7]
+
+// rotate(arr,2);
+
+var isHappy = function(n) {
+  return happyHelper(n)
 };
 
-let arr = [-1,-100,3,99]
-let arr2 = [1,2,3,4,5,6,7]
+function happyHelper(n, memo = {}) {
+   if (n === 1) return true
+   if (!n) return false
+   
+   
+   let current = n;
+   let sum = 0
+   
+   while (current !== 0) {
+       sum += (current % 10) * (current % 10)
+       current = Math.floor(current/10)
+   }
+   
+   if (n in memo) return false
+   memo[n] = true
+   
+   return happyHelper(sum, memo)
+}
 
-rotate(arr,2);
-
-
+console.log(happyHelper(2))
 
 
