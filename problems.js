@@ -105,29 +105,57 @@
 
 // rotate(arr,2);
 
-var isHappy = function(n) {
-  return happyHelper(n)
+// var isHappy = function(n) {
+//   return happyHelper(n)
+// };
+
+// function happyHelper(n, memo = {}) {
+//    if (n === 1) return true
+//    if (!n) return false
+   
+   
+//    let current = n;
+//    let sum = 0
+   
+//    while (current !== 0) {
+//        sum += (current % 10) * (current % 10)
+//        current = Math.floor(current/10)
+//    }
+   
+//    if (n in memo) return false
+//    memo[n] = true
+   
+//    return happyHelper(sum, memo)
+// }
+
+// console.log(happyHelper(2))
+
+var isIsomorphic = function(s, t) {
+  let hash = {};
+  let hash2 = {};
+
+  for (let i = 0; i < s.length; i++) {
+    
+    if (hash[s[i]]) {
+      if (hash[s[i]] !== t[i]) return false;
+
+    } else {
+      hash[s[i]] = t[i]
+    }
+
+    if (hash2[t[i]]) {
+      if (hash2[t[i]] !== s[i]) return false;
+
+    } else {
+      hash2[t[i]] = s[i]
+    }
+  }
+
+  return true
 };
 
-function happyHelper(n, memo = {}) {
-   if (n === 1) return true
-   if (!n) return false
-   
-   
-   let current = n;
-   let sum = 0
-   
-   while (current !== 0) {
-       sum += (current % 10) * (current % 10)
-       current = Math.floor(current/10)
-   }
-   
-   if (n in memo) return false
-   memo[n] = true
-   
-   return happyHelper(sum, memo)
-}
-
-console.log(happyHelper(2))
+let s = "ab"
+let t = "aa"
+console.log(isIsomorphic(s, t))
 
 
