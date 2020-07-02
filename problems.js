@@ -130,32 +130,61 @@
 
 // console.log(happyHelper(2))
 
-var isIsomorphic = function(s, t) {
-  let hash = {};
-  let hash2 = {};
+// O(n) time & O(n) space
+// var isIsomorphic = function(s, t) {
+//   let hash = {};
+//   let hash2 = {};
 
-  for (let i = 0; i < s.length; i++) {
-    
-    if (hash[s[i]]) {
-      if (hash[s[i]] !== t[i]) return false;
+//   for (let i = 0; i < s.length; i++) {
+//     if (hash[s[i]]) {
+//       if (hash[s[i]] !== t[i]) return false;
+//     } else {
+//       hash[s[i]] = t[i]
+//     }
 
-    } else {
-      hash[s[i]] = t[i]
-    }
+//   }
 
-    if (hash2[t[i]]) {
-      if (hash2[t[i]] !== s[i]) return false;
+//   for (i = 0; i < s.length; i++) {
+//     if (hash2[t[i]]) {
+//       if (hash2[t[i]] !== s[i]) return false;
+//     } else {
+//       hash2[t[i]] = s[i]
+//     }
 
-    } else {
-      hash2[t[i]] = s[i]
-    }
+//   }
+//   return true
+// };
+
+// let s = "abb"
+// let t = "acc"
+// console.log(isIsomorphic(s, t))
+
+
+var reverseWords = function(s) {
+  let arr = s.split(' ');
+
+  for (let i = 0; i < arr.length; i++) {
+      let news = revHelper(arr[i].split(''))
+      arr[i] = news
   }
-
-  return true
+  
+  return arr.join(' ');
 };
 
-let s = "ab"
-let t = "aa"
-console.log(isIsomorphic(s, t))
+function revHelper(s) {
+  let i = 0
+  let j = s.length - 1
+  // return
+  while (i < j) {
+    let temp = s[i];
 
+    s[i] = s[j];
+    s[j] = temp;
+    i++
+    j--
+  }
+  
+  return s.join('')
+};
 
+console.log(reverseWords("Let's take LeetCode contest"))
