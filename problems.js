@@ -160,31 +160,164 @@
 // console.log(isIsomorphic(s, t))
 
 
-var reverseWords = function(s) {
-  let arr = s.split(' ');
+// var reverseWords = function(s) {
+//   let arr = s.split(' ');
 
-  for (let i = 0; i < arr.length; i++) {
-      let news = revHelper(arr[i].split(''))
-      arr[i] = news
-  }
+//   for (let i = 0; i < arr.length; i++) {
+//       let news = revHelper(arr[i].split(''))
+//       arr[i] = news
+//   }
   
-  return arr.join(' ');
+//   return arr.join(' ');
+// };
+
+// function revHelper(s) {
+//   let i = 0
+//   let j = s.length - 1
+//   // return
+//   while (i < j) {
+//     let temp = s[i];
+
+//     s[i] = s[j];
+//     s[j] = temp;
+//     i++
+//     j--
+//   }
+  
+//   return s.join('')
+// };
+
+// console.log(reverseWords("Let's take LeetCode contest"))
+
+// var runningSum = function(nums) {
+//   for (let i = 0; i < nums.length;i++) {
+//     console.log(i)
+//       if (i === 0) continue;
+      
+//       nums[i] = nums[i-1] + nums[i]
+//   }
+  
+//   return nums[nums.length - 1]
+// };
+
+// runningSum([1,2,3,4])
+
+// stack helper
+
+// function stackHelper(root, stack) {
+//   if (!root) return;
+  
+//   if (root.right) stack.push(root.right);
+//   if (root.left)  stack.push(root.left);
+  
+//   stackHelper(root.right, stack)
+//   stackHelper(root.left, stack)
+  
+//   return stack
+// }
+
+
+// var checkPossibility = function(nums) {
+//   let modified = false;
+
+//   for (let i = 0; i < nums.length - 1;i++) {
+//     if (nums[i] > nums[i + 1]) {
+//       if (modified) return false
+
+//       modified = true;
+
+//       // in this for loop we're deciding if how to change the array
+//       // so that the the array becomes decreasing:
+
+
+//       if (i== 0 || nums[i + 1] >= nums[i - 1]) {
+//         // here the next number is greater than the previous number:
+//         // consider [1,4,2,3] @ index 1 so 4;
+//         // we have to change 4 to 2 so that the array is non-decreasing
+
+//         // Note that we can also change i + 1 (2) to i (4) to get
+//         // [1,4,4,3]
+//         // but we should probably just change to the lower amount
+
+//         nums[i] = nums[i + 1]
+//       } else {
+
+//         // here the next number from i is less than the previous number from i;
+//         // consider [2,4,1,3]
+//         // to make this array non-decreasing, we change 1 to 3
+//         nums[i + 1] = nums[i]
+//       }
+//     }
+
+//   }
+
+//   return true
+
+// };
+
+// checkPossibility([3,4,2,3])
+
+
+var KthLargest = function(k, nums) {
+  this.nums = nums.sort((a,b)=> a - b);
+  this.k = k
+
 };
 
-function revHelper(s) {
-  let i = 0
-  let j = s.length - 1
-  // return
-  while (i < j) {
-    let temp = s[i];
+KthLargest.prototype.add = function(val) {
 
-    s[i] = s[j];
-    s[j] = temp;
-    i++
-    j--
+  this.nums.push(val)
+  
+  let i = this.nums.length - 1
+  while (i > 0 && this.nums[i] < this.nums[i-1]) {
+      let temp = this.nums[i-1];
+      this.nums[i-1] = this.nums[i]
+      this.nums[i] = temp
+      i--
   }
   
-  return s.join('')
+  console.log(this.nums)
+  return this.nums[this.nums.length - this.k]
 };
 
-console.log(reverseWords("Let's take LeetCode contest"))
+let arr = [-10,1,3,1,4,10,3,9,4,5,1];
+console.log(arr.sort((a,b)=> a-b ))
+
+
+
+let k = 7
+
+var obj = new KthLargest(k, arr)
+// console.log(obj)
+
+// obj.add(3)
+// obj.add(3)
+// obj.add(3)
+// obj.add(3)
+// obj.add(2)
+// obj.add(3)
+// obj.add(1)
+// obj.add(2)
+// obj.add(4)
+// obj.add(5)
+// obj.add(5)
+// obj.add(6)
+// obj.add(7)
+// obj.add(7)
+// obj.add(8)
+// obj.add(8)
+// obj.add(2)
+// obj.add(3)
+// obj.add(1)
+// obj.add(1)
+// obj.add(1)
+// obj.add(10)
+// obj.add(11)
+// obj.add(5)
+// obj.add(6)
+// obj.add(2)
+// obj.add(4)
+// obj.add(7)
+// obj.add(8)
+// obj.add(5)
+// obj.add(6)
