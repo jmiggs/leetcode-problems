@@ -258,36 +258,36 @@
 // checkPossibility([3,4,2,3])
 
 
-var KthLargest = function(k, nums) {
-  this.nums = nums.sort((a,b)=> a - b);
-  this.k = k
+// var KthLargest = function(k, nums) {
+//   this.nums = nums.sort((a,b)=> a - b);
+//   this.k = k
 
-};
+// };
 
-KthLargest.prototype.add = function(val) {
+// KthLargest.prototype.add = function(val) {
 
-  this.nums.push(val)
+//   this.nums.push(val)
   
-  let i = this.nums.length - 1
-  while (i > 0 && this.nums[i] < this.nums[i-1]) {
-      let temp = this.nums[i-1];
-      this.nums[i-1] = this.nums[i]
-      this.nums[i] = temp
-      i--
-  }
+//   let i = this.nums.length - 1
+//   while (i > 0 && this.nums[i] < this.nums[i-1]) {
+//       let temp = this.nums[i-1];
+//       this.nums[i-1] = this.nums[i]
+//       this.nums[i] = temp
+//       i--
+//   }
   
-  console.log(this.nums)
-  return this.nums[this.nums.length - this.k]
-};
+//   console.log(this.nums)
+//   return this.nums[this.nums.length - this.k]
+// };
 
-let arr = [-10,1,3,1,4,10,3,9,4,5,1];
-console.log(arr.sort((a,b)=> a-b ))
+// let arr = [-10,1,3,1,4,10,3,9,4,5,1];
+// console.log(arr.sort((a,b)=> a-b ))
 
 
 
-let k = 7
+// let k = 7
 
-var obj = new KthLargest(k, arr)
+// var obj = new KthLargest(k, arr)
 // console.log(obj)
 
 // obj.add(3)
@@ -321,3 +321,66 @@ var obj = new KthLargest(k, arr)
 // obj.add(8)
 // obj.add(5)
 // obj.add(6)
+
+
+var countCharacters = function(words, chars) {
+  let hash = {};
+  
+  for (const letter of chars) {
+      if (letter in hash) {
+          hash[letter] += 1
+      } else {
+          hash[letter] = 1
+      }
+  }
+
+//   let string = `boygirdlggnh`
+//   let hash2 = {}
+
+//   for (const letter of string) {
+//     if (letter in hash2) {
+//         hash2[letter] += 1
+//     } else {
+//         hash2[letter] = 1
+//     }
+// }
+
+//   for (let i = 0; i < string.length; i++) {
+//     console.log(string[i], hash[string[i]], hash2[string[i]])
+//   }
+
+//   return
+
+
+  let res = 0
+  
+  for (const word of words) {
+
+      let flag = false;
+      let hashCopy = JSON.parse(JSON.stringify(hash))
+
+      for (let i = 0; i < word.length; i++) {
+          if (!(word[i] in hash)) break;
+          
+          if (word[i] in hash) {
+              hashCopy[word[i]] -= 1
+          }
+
+          if (hashCopy[word[i]] < 0) break;
+            
+          if (i === word.length - 1) flag = true;
+
+      }
+       
+      if (flag) {
+        res += word.length
+      }
+  }
+  
+  return res
+};
+
+
+let arr = ["dyiclysmffuhibgfvapygkorkqllqlvokosagyelotobicwcmebnpznjbirzrzsrtzjxhsfpiwyfhzyonmuabtlwin","ndqeyhhcquplmznwslewjzuyfgklssvkqxmqjpwhrshycmvrb","ulrrbpspyudncdlbkxkrqpivfftrggemkpyjl","boygirdlggnh","xmqohbyqwagkjzpyawsydmdaattthmuvjbzwpyopyafphx","nulvimegcsiwvhwuiyednoxpugfeimnnyeoczuzxgxbqjvegcxeqnjbwnbvowastqhojepisusvsidhqmszbrnynkyop","hiefuovybkpgzygprmndrkyspoiyapdwkxebgsmodhzpx","juldqdzeskpffaoqcyyxiqqowsalqumddcufhouhrskozhlmobiwzxnhdkidr","lnnvsdcrvzfmrvurucrzlfyigcycffpiuoo","oxgaskztzroxuntiwlfyufddl","tfspedteabxatkaypitjfkhkkigdwdkctqbczcugripkgcyfezpuklfqfcsccboarbfbjfrkxp","qnagrpfzlyrouolqquytwnwnsqnmuzphne","eeilfdaookieawrrbvtnqfzcricvhpiv","sisvsjzyrbdsjcwwygdnxcjhzhsxhpceqz","yhouqhjevqxtecomahbwoptzlkyvjexhzcbccusbjjdgcfzlkoqwiwue","hwxxighzvceaplsycajkhynkhzkwkouszwaiuzqcleyflqrxgjsvlegvupzqijbornbfwpefhxekgpuvgiyeudhncv","cpwcjwgbcquirnsazumgjjcltitmeyfaudbnbqhflvecjsupjmgwfbjo","teyygdmmyadppuopvqdodaczob","qaeowuwqsqffvibrtxnjnzvzuuonrkwpysyxvkijemmpdmtnqxwekbpfzs","qqxpxpmemkldghbmbyxpkwgkaykaerhmwwjonrhcsubchs"]
+let chars = "usdruypficfbpfbivlrhutcgvyjenlxzeovdyjtgvvfdjzcmikjraspdfp"
+console.log(countCharacters(arr,chars))
