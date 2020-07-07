@@ -323,16 +323,16 @@
 // obj.add(6)
 
 
-var countCharacters = function(words, chars) {
-  let hash = {};
+// var countCharacters = function(words, chars) {
+//   let hash = {};
   
-  for (const letter of chars) {
-      if (letter in hash) {
-          hash[letter] += 1
-      } else {
-          hash[letter] = 1
-      }
-  }
+//   for (const letter of chars) {
+//       if (letter in hash) {
+//           hash[letter] += 1
+//       } else {
+//           hash[letter] = 1
+//       }
+//   }
 
 //   let string = `boygirdlggnh`
 //   let hash2 = {}
@@ -352,35 +352,37 @@ var countCharacters = function(words, chars) {
 //   return
 
 
-  let res = 0
+//   let res = 0
   
-  for (const word of words) {
+//   for (const word of words) {
 
-      let flag = false;
-      let hashCopy = JSON.parse(JSON.stringify(hash))
+//       let flag = false;
+//       let hashCopy = JSON.parse(JSON.stringify(hash))
 
-      for (let i = 0; i < word.length; i++) {
-          if (!(word[i] in hash)) break;
+//       for (let i = 0; i < word.length; i++) {
+//           if (!(word[i] in hash)) break;
           
-          if (word[i] in hash) {
-              hashCopy[word[i]] -= 1
-          }
+//           if (word[i] in hash) {
+//               hashCopy[word[i]] -= 1
+//           }
 
-          if (hashCopy[word[i]] < 0) break;
+//           if (hashCopy[word[i]] < 0) break;
             
-          if (i === word.length - 1) flag = true;
+//           if (i === word.length - 1) flag = true;
 
-      }
+//       }
        
-      if (flag) {
-        res += word.length
-      }
-  }
+//       if (flag) {
+//         res += word.length
+//       }
+//   }
   
-  return res
-};
+//   return res
+// };
 
 
-let arr = ["dyiclysmffuhibgfvapygkorkqllqlvokosagyelotobicwcmebnpznjbirzrzsrtzjxhsfpiwyfhzyonmuabtlwin","ndqeyhhcquplmznwslewjzuyfgklssvkqxmqjpwhrshycmvrb","ulrrbpspyudncdlbkxkrqpivfftrggemkpyjl","boygirdlggnh","xmqohbyqwagkjzpyawsydmdaattthmuvjbzwpyopyafphx","nulvimegcsiwvhwuiyednoxpugfeimnnyeoczuzxgxbqjvegcxeqnjbwnbvowastqhojepisusvsidhqmszbrnynkyop","hiefuovybkpgzygprmndrkyspoiyapdwkxebgsmodhzpx","juldqdzeskpffaoqcyyxiqqowsalqumddcufhouhrskozhlmobiwzxnhdkidr","lnnvsdcrvzfmrvurucrzlfyigcycffpiuoo","oxgaskztzroxuntiwlfyufddl","tfspedteabxatkaypitjfkhkkigdwdkctqbczcugripkgcyfezpuklfqfcsccboarbfbjfrkxp","qnagrpfzlyrouolqquytwnwnsqnmuzphne","eeilfdaookieawrrbvtnqfzcricvhpiv","sisvsjzyrbdsjcwwygdnxcjhzhsxhpceqz","yhouqhjevqxtecomahbwoptzlkyvjexhzcbccusbjjdgcfzlkoqwiwue","hwxxighzvceaplsycajkhynkhzkwkouszwaiuzqcleyflqrxgjsvlegvupzqijbornbfwpefhxekgpuvgiyeudhncv","cpwcjwgbcquirnsazumgjjcltitmeyfaudbnbqhflvecjsupjmgwfbjo","teyygdmmyadppuopvqdodaczob","qaeowuwqsqffvibrtxnjnzvzuuonrkwpysyxvkijemmpdmtnqxwekbpfzs","qqxpxpmemkldghbmbyxpkwgkaykaerhmwwjonrhcsubchs"]
-let chars = "usdruypficfbpfbivlrhutcgvyjenlxzeovdyjtgvvfdjzcmikjraspdfp"
-console.log(countCharacters(arr,chars))
+// let arr = ["dyiclysmffuhibgfvapygkorkqllqlvokosagyelotobicwcmebnpznjbirzrzsrtzjxhsfpiwyfhzyonmuabtlwin","ndqeyhhcquplmznwslewjzuyfgklssvkqxmqjpwhrshycmvrb","ulrrbpspyudncdlbkxkrqpivfftrggemkpyjl","boygirdlggnh","xmqohbyqwagkjzpyawsydmdaattthmuvjbzwpyopyafphx","nulvimegcsiwvhwuiyednoxpugfeimnnyeoczuzxgxbqjvegcxeqnjbwnbvowastqhojepisusvsidhqmszbrnynkyop","hiefuovybkpgzygprmndrkyspoiyapdwkxebgsmodhzpx","juldqdzeskpffaoqcyyxiqqowsalqumddcufhouhrskozhlmobiwzxnhdkidr","lnnvsdcrvzfmrvurucrzlfyigcycffpiuoo","oxgaskztzroxuntiwlfyufddl","tfspedteabxatkaypitjfkhkkigdwdkctqbczcugripkgcyfezpuklfqfcsccboarbfbjfrkxp","qnagrpfzlyrouolqquytwnwnsqnmuzphne","eeilfdaookieawrrbvtnqfzcricvhpiv","sisvsjzyrbdsjcwwygdnxcjhzhsxhpceqz","yhouqhjevqxtecomahbwoptzlkyvjexhzcbccusbjjdgcfzlkoqwiwue","hwxxighzvceaplsycajkhynkhzkwkouszwaiuzqcleyflqrxgjsvlegvupzqijbornbfwpefhxekgpuvgiyeudhncv","cpwcjwgbcquirnsazumgjjcltitmeyfaudbnbqhflvecjsupjmgwfbjo","teyygdmmyadppuopvqdodaczob","qaeowuwqsqffvibrtxnjnzvzuuonrkwpysyxvkijemmpdmtnqxwekbpfzs","qqxpxpmemkldghbmbyxpkwgkaykaerhmwwjonrhcsubchs"]
+// let chars = "usdruypficfbpfbivlrhutcgvyjenlxzeovdyjtgvvfdjzcmikjraspdfp"
+// console.log(countCharacters(arr,chars))
+
+
