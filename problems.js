@@ -386,3 +386,8 @@
 // console.log(countCharacters(arr,chars))
 
 
+let hash = {1: 'yes'}
+
+for (const color in hash) {
+  console.log(color)
+}
