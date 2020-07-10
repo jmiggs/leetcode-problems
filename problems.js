@@ -386,8 +386,59 @@
 // console.log(countCharacters(arr,chars))
 
 
-let hash = {1: 'yes'}
+// let hash = {1: 'yes'}
 
-for (const color in hash) {
-  console.log(color)
+// for (const color in hash) {
+//   console.log(color)
+// }
+
+
+// var moveZeroes = function(nums) {
+
+//   let lastNonZeroFoundAt = 0;
+
+//   for (let i = 0; i < nums.length; i++) {
+//       if (nums[i] != 0) {
+//           nums[lastNonZeroFoundAt++] = nums[i];
+//       }
+
+//       console.log(nums)
+//   }
+
+//   for (let i = lastNonZeroFoundAt; i < nums.length; i++) {
+//       nums[i] = 0;
+//       console.log(nums)
+//   }
+// };
+
+// moveZeroes([0,1,0,3,12])
+
+
+
+function subarraySum(nums, k) {
+  let count = 0
+  let sum = 0;
+  let map = {};
+  map[0] = 1
+
+  for (let i = 0; i < nums.length; i++) {
+    sum += nums[i];
+    if ((sum - k) in map) {
+      count += map[sum - k];
+    }
+
+
+    if ( sum in map) {
+      map[sum] += 1
+    } else {
+      map[sum] = 1
+    }
+  
+  console.log(nums[i])
+  console.log('sum:', sum, 'k', k, 'sum minus k:', sum - k)
+  console.log(map)
+  }
+  return count;
 }
+
+console.log(subarraySum([3,4,7,2,-3,1,4,2], 7))
