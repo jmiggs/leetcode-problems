@@ -434,9 +434,7 @@ function subarraySum(nums, k) {
       map[sum] = 1
     }
   
-  console.log(nums[i])
-  console.log('sum:', sum, 'k', k, 'sum minus k:', sum - k)
-  console.log(map)
+
   }
   return count;
 }
