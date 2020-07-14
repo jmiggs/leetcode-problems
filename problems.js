@@ -439,4 +439,3 @@ function subarraySum(nums, k) {
   return count;
 }
 
-console.log(subarraySum([3,4,7,2,-3,1,4,2], 7))
