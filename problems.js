@@ -415,27 +415,117 @@
 
 
 
-function subarraySum(nums, k) {
-  let count = 0
-  let sum = 0;
-  let map = {};
-  map[0] = 1
+// function subarraySum(nums, k) {
+//   let count = 0
+//   let sum = 0;
+//   let map = {};
+//   map[0] = 1
 
-  for (let i = 0; i < nums.length; i++) {
-    sum += nums[i];
-    if ((sum - k) in map) {
-      count += map[sum - k];
-    }
+//   for (let i = 0; i < nums.length; i++) {
+//     sum += nums[i];
+//     if ((sum - k) in map) {
+//       count += map[sum - k];
+//     }
 
 
-    if ( sum in map) {
-      map[sum] += 1
-    } else {
-      map[sum] = 1
-    }
+//     if ( sum in map) {
+//       map[sum] += 1
+//     } else {
+//       map[sum] = 1
+//     }
   
 
-  }
-  return count;
-}
+//   }
+//   return count;
+// }
 
+// function xorshift(n) {
+//   let length = String(n).length;
+//   console.log(length)
+//   let seed;
+
+//   let date = Date.now()
+//   seed = date % 10
+
+//   seed ^= seed << 13;
+
+//   seed ^= seed >> 17;
+
+//   seed ^= seed << 5;
+
+//   console.log(seed)
+//   // console.log(Math.pow(10, length))
+//   let newValue =  Math.floor(seed % Math.pow(10, length))
+
+//   if (newValue >= n) {
+//     let diff = newValue - n - 1;
+//     newValue -= diff;
+//   }
+
+//   return newValue
+ 
+// }
+
+var spiralOrder = function(matrix) {
+  let startRow = 0;
+  let endRow = matrix.length;
+  let startCol = 0;
+  let endCol = matrix[0].length;
+  
+  let numElements = matrix.length * matrix[0].length;
+  let count = 0;
+  
+  let res = [];
+  
+  while (count !== numElements) {
+   
+      for (let i = startCol; i < endCol; i++) {
+          res.push(matrix[startRow][i])
+          count++
+        }
+        
+      if (count === numElements) break;
+      
+              
+      for (let j = startRow + 1; j < endRow - 1; j++) {
+          res.push(matrix[j][endCol - 1])
+          count++
+        }
+        
+      if (count === numElements) break;
+      
+      
+      for (let x = endCol - 1; x > startCol; x--) {
+          res.push(matrix[endRow - 1][x])
+          count++
+        }
+        
+      if (count === numElements) break;
+    
+      
+      for (let y = endRow - 1; y >= startRow + 1; y--) {
+          res.push(matrix[y][startCol])
+          count++
+          
+        }
+
+      if (count === numElements) break;
+        
+      startCol++
+      endCol--
+      startRow++
+      endRow--  
+  }
+  
+  return res
+  
+};
+
+let array = 
+[
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9,10,11,12]
+];
+
+console.log(spiralOrder(array))
