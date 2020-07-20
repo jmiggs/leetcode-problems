@@ -285,7 +285,7 @@
 
 
 
-// let k = 7
+
 
 // var obj = new KthLargest(k, arr)
 // console.log(obj)
