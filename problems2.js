@@ -235,40 +235,120 @@
 // console.log(topKFrequent(arr2, 2))
 
 
-function sol(mat) {
-  let rows = mat.length;
-  let cols = mat[0].length;
+// function sol(mat) {
+//   let rows = mat.length;
+//   let cols = mat[0].length;
 
-  let dp = [];
+//   let dp = [];
 
-  let max = 0;
+//   let max = 0;
 
 
-  for (let i = 0; i <= rows; i++) {
-    let row = new Array(cols + 1).fill(0);
-    dp.push(row)
-  }
+//   for (let i = 0; i <= rows; i++) {
+//     let row = new Array(cols + 1).fill(0);
+//     dp.push(row)
+//   }
 
-  for (let i = 1; i <= rows; i++) {
-    for (let j = 1; j <= cols;j++) {
-      if (mat[i-1][j-1] == '1'){
-        dp[i][j] = Math.min(Math.min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1;
-        max = Math.max(max, dp[i][j]);
+//   for (let i = 1; i <= rows; i++) {
+//     for (let j = 1; j <= cols;j++) {
+//       if (mat[i-1][j-1] == '1'){
+//         dp[i][j] = Math.min(Math.min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1;
+//         max = Math.max(max, dp[i][j]);
+//       }
+//     }
+//   }
+
+//   console.log(dp, mat)
+
+//   return max * max
+// }
+
+// let mat = [
+//   [0,1,1,1,0],
+//   [1,1,1,1,0],
+//   [0,1,1,1,1],
+//   [0,1,1,1,1],
+//   [0,0,1,1,1]
+// ]
+
+// console.log(sol(mat))
+
+
+
+
+var calculate = function(s) {
+  let charArr = s.split('');
+  console.log(charArr)
+  let numStack = [];
+  let opStack = [];
+  let operators = { '/': true, '*': true, '-': true, '+': true}
+
+
+  while (charArr.length) {
+    let c = charArr.shift();
+
+    if (c === ' ') continue;
+
+    if (c in operators) {
+      opStack.push(c)
+    } else {
+      
+      let numString = c;
+      let j = 0;
+
+      while (Number.isInteger(parseInt(charArr[j])) && j < charArr.length) {
+        numString = numString + charArr.shift()
+      }
+
+      let lastOp = opStack[opStack.length - 1];
+
+      if (lastOp === '/' || lastOp === '*') {
+        lastOp = opStack.pop();
+        let lastNum = Number(numStack.pop());
+        let currNum = Number(numString);
+        let newNum;
+
+        if (lastOp === '/') {
+          newNum = Math.floor(lastNum / currNum)
+        } else {
+          newNum = Math.floor(lastNum * currNum)
+        }
+
+        numStack.push(newNum.toString())
+      } else {
+        numStack.push(numString)
       }
     }
   }
 
-  console.log(dp, mat)
+  while (opStack.length) {
+    let firstNum = Number(numStack.shift());
+    let op = opStack.shift();
+    let secNum = Number(numStack.shift());
 
-  return max * max
-}
+    let res;
 
-let mat = [
-  [0,1,1,1,0],
-  [1,1,1,1,0],
-  [0,1,1,1,1],
-  [0,1,1,1,1],
-  [0,0,1,1,1]
+    if (op === '+') {
+      res = firstNum + secNum;
+    } else {
+      res = firstNum - secNum;
+    }
+
+    numStack.unshift(res.toString())
+  }
+
+  return Number(numStack[0])
+
+};
+
+let s = '4/2 + 1-2+5*13 - 1'
+
+console.log(calculate(s))
+
+
+[
+  [0,1,0],
+  [0,0,1],
+  [1,1,1],
+  [0,0,0]
 ]
-
-console.log(sol(mat))
