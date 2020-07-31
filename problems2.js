@@ -276,79 +276,147 @@
 
 
 
-var calculate = function(s) {
-  let charArr = s.split('');
-  console.log(charArr)
-  let numStack = [];
-  let opStack = [];
-  let operators = { '/': true, '*': true, '-': true, '+': true}
+// var calculate = function(s) {
+//   let charArr = s.split('');
+//   console.log(charArr)
+//   let numStack = [];
+//   let opStack = [];
+//   let operators = { '/': true, '*': true, '-': true, '+': true}
 
 
-  while (charArr.length) {
-    let c = charArr.shift();
+//   while (charArr.length) {
+//     let c = charArr.shift();
 
-    if (c === ' ') continue;
+//     if (c === ' ') continue;
 
-    if (c in operators) {
-      opStack.push(c)
-    } else {
+//     if (c in operators) {
+//       opStack.push(c)
+//     } else {
       
-      let numString = c;
-      let j = 0;
+//       let numString = c;
+//       let j = 0;
 
-      while (Number.isInteger(parseInt(charArr[j])) && j < charArr.length) {
-        numString = numString + charArr.shift()
-      }
+//       while (Number.isInteger(parseInt(charArr[j])) && j < charArr.length) {
+//         numString = numString + charArr.shift()
+//       }
 
-      let lastOp = opStack[opStack.length - 1];
+//       let lastOp = opStack[opStack.length - 1];
 
-      if (lastOp === '/' || lastOp === '*') {
-        lastOp = opStack.pop();
-        let lastNum = Number(numStack.pop());
-        let currNum = Number(numString);
-        let newNum;
+//       if (lastOp === '/' || lastOp === '*') {
+//         lastOp = opStack.pop();
+//         let lastNum = Number(numStack.pop());
+//         let currNum = Number(numString);
+//         let newNum;
 
-        if (lastOp === '/') {
-          newNum = Math.floor(lastNum / currNum)
+//         if (lastOp === '/') {
+//           newNum = Math.floor(lastNum / currNum)
+//         } else {
+//           newNum = Math.floor(lastNum * currNum)
+//         }
+
+//         numStack.push(newNum.toString())
+//       } else {
+//         numStack.push(numString)
+//       }
+//     }
+//   }
+
+//   while (opStack.length) {
+//     let firstNum = Number(numStack.shift());
+//     let op = opStack.shift();
+//     let secNum = Number(numStack.shift());
+
+//     let res;
+
+//     if (op === '+') {
+//       res = firstNum + secNum;
+//     } else {
+//       res = firstNum - secNum;
+//     }
+
+//     numStack.unshift(res.toString())
+//   }
+
+//   return Number(numStack[0])
+
+// };
+
+// let s = '4/2 + 1-2+5*13 - 1'
+
+// console.log(calculate(s))
+
+
+// [
+//   [0,1,0],
+//   [0,0,1],
+//   [1,1,1],
+//   [0,0,0]
+// ]
+
+
+
+var decodeString = function(s) {
+  // two stack method
+  // one for letters
+  // one for brackets 
+  
+  let charStack = [];
+  let bracketStack = [];
+      
+  for (let i = 0; i < s.length; i++) {
+      if (i === 0) {
+          charStack.push(s[i])
+          continue;
+      } 
+
+      console.log(charStack)
+      if (s[i] === '[') {
+          bracketStack.push(s[i])
+      } else if (Number.isInteger(parseInt(s[i]))) {
+
+        if (Number.isInteger(parseInt(charStack[charStack.length - 1]))) {
+          let numChar = charStack.pop();
+          numChar = numChar + s[i];
+          charStack.push(numChar)
         } else {
-          newNum = Math.floor(lastNum * currNum)
+          charStack.push(s[i])
         }
+      } else if ( s[i] === ']') {
+          bracketStack.pop();
+          let str = charStack.pop();
+          let num = Number(charStack.pop());
+          let newS = "";
+ 
+          for (let i = 0; i < num; i++) {
+              newS += str
+          }
 
-        numStack.push(newNum.toString())
+          if (Number.isInteger(parseInt(charStack[charStack.length - 1])) || !charStack.length) {
+              charStack.push(newS)
+          } else {
+            let str = charStack.pop();
+            let newStr = str + newS;
+            charStack.push(newStr)
+          }
+          
       } else {
-        numStack.push(numString)
+          if (Number.isInteger(parseInt(charStack[charStack.length - 1]))) {
+              charStack.push(s[i])
+          } else {
+              let str = charStack.pop();
+              let newStr = str + s[i];
+              charStack.push(newStr)
+          }
       }
-    }
   }
-
-  while (opStack.length) {
-    let firstNum = Number(numStack.shift());
-    let op = opStack.shift();
-    let secNum = Number(numStack.shift());
-
-    let res;
-
-    if (op === '+') {
-      res = firstNum + secNum;
-    } else {
-      res = firstNum - secNum;
-    }
-
-    numStack.unshift(res.toString())
-  }
-
-  return Number(numStack[0])
-
+  
+  return charStack.join('')
 };
 
-let s = '4/2 + 1-2+5*13 - 1'
+let s = "3[a2[c]]"
+let s2 = "3[a]2[bc]"
+let s3 = "100[leetcode]"
+let s4 = "3[z]2[2[y]pq4[2[jk]e1[f]]]ef"
 
-console.log(calculate(s))
 
-
-[
-  [0,1,0],
-  [0,0,1],
-  [1,1,1],
-  [0,0,0]
-]
+console.log(decodeString(s4))
