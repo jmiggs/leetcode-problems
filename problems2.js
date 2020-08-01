@@ -355,68 +355,126 @@
 
 
 
-var decodeString = function(s) {
-  // two stack method
-  // one for letters
-  // one for brackets 
+// var decodeString = function(s) {
+//   // two stack method
+//   // one for letters
+//   // one for brackets 
   
-  let charStack = [];
-  let bracketStack = [];
+//   let charStack = [];
+//   let bracketStack = [];
       
-  for (let i = 0; i < s.length; i++) {
-      if (i === 0) {
-          charStack.push(s[i])
-          continue;
-      } 
+//   for (let i = 0; i < s.length; i++) {
+//       if (i === 0) {
+//           charStack.push(s[i])
+//           continue;
+//       } 
 
-      console.log(charStack)
-      if (s[i] === '[') {
-          bracketStack.push(s[i])
-      } else if (Number.isInteger(parseInt(s[i]))) {
+//       console.log(charStack)
+//       if (s[i] === '[') {
+//           bracketStack.push(s[i])
+//       } else if (Number.isInteger(parseInt(s[i]))) {
 
-        if (Number.isInteger(parseInt(charStack[charStack.length - 1]))) {
-          let numChar = charStack.pop();
-          numChar = numChar + s[i];
-          charStack.push(numChar)
-        } else {
-          charStack.push(s[i])
-        }
-      } else if ( s[i] === ']') {
-          bracketStack.pop();
-          let str = charStack.pop();
-          let num = Number(charStack.pop());
-          let newS = "";
+//         if (Number.isInteger(parseInt(charStack[charStack.length - 1]))) {
+//           let numChar = charStack.pop();
+//           numChar = numChar + s[i];
+//           charStack.push(numChar)
+//         } else {
+//           charStack.push(s[i])
+//         }
+//       } else if ( s[i] === ']') {
+//           bracketStack.pop();
+//           let str = charStack.pop();
+//           let num = Number(charStack.pop());
+//           let newS = "";
  
-          for (let i = 0; i < num; i++) {
-              newS += str
-          }
+//           for (let i = 0; i < num; i++) {
+//               newS += str
+//           }
 
-          if (Number.isInteger(parseInt(charStack[charStack.length - 1])) || !charStack.length) {
-              charStack.push(newS)
-          } else {
-            let str = charStack.pop();
-            let newStr = str + newS;
-            charStack.push(newStr)
-          }
+//           if (Number.isInteger(parseInt(charStack[charStack.length - 1])) || !charStack.length) {
+//               charStack.push(newS)
+//           } else {
+//             let str = charStack.pop();
+//             let newStr = str + newS;
+//             charStack.push(newStr)
+//           }
           
-      } else {
-          if (Number.isInteger(parseInt(charStack[charStack.length - 1]))) {
-              charStack.push(s[i])
-          } else {
-              let str = charStack.pop();
-              let newStr = str + s[i];
-              charStack.push(newStr)
-          }
+//       } else {
+//           if (Number.isInteger(parseInt(charStack[charStack.length - 1]))) {
+//               charStack.push(s[i])
+//           } else {
+//               let str = charStack.pop();
+//               let newStr = str + s[i];
+//               charStack.push(newStr)
+//           }
+//       }
+//   }
+  
+//   return charStack.join('')
+// };
+
+// let s = "3[a2[c]]"
+// let s2 = "3[a]2[bc]"
+// let s3 = "100[leetcode]"
+// let s4 = "3[z]2[2[y]pq4[2[jk]e1[f]]]ef"
+
+
+// console.log(decodeString(s4))
+
+var ladderLength = function(beginWord, endWord, wordList) {
+
+  let alpha = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  let dict = new Set(wordList);
+  let visited = new Set();
+  
+  if (!dict.has(endWord)) return 0
+  
+  let q = [beginWord];
+  let level = 1;
+  
+  
+  while (q.length) {
+      let numTimes = q.length;
+      
+      for (let i = 0; i < numTimes; i++) {
+          let ele = q.shift();
+          
+          let currWord = ele.split('')
+          for (let j = 0; j < currWord.length; j++) {
+              let og = currWord[j]
+              for (const c of alpha) {
+                  // if (c === currWord[j]) continue
+                  currWord[j] = c
+                  let newWord = currWord.join('');
+
+                  console.log(newWord, level)
+                  if (newWord === endWord) {
+                      return level + 1
+                  }
+                  if (dict.has(newWord)) {
+                      q.push(newWord)
+                      dict.delete(newWord)
+                  }
+              }
+              currWord[j] = og;
+              
+          } 
+          
       }
+      console.log(q, level)
+      level++
+      
   }
   
-  return charStack.join('')
+  return 0   
 };
 
-let s = "3[a2[c]]"
-let s2 = "3[a]2[bc]"
-let s3 = "100[leetcode]"
-let s4 = "3[z]2[2[y]pq4[2[jk]e1[f]]]ef"
+let s = "ymain"
+let n = "oecij"
+let arr = ["ymann","yycrj","oecij","ymcnj","yzcrj","yycij","xecij","yecij","ymanj","yzcnj","ymain"]
 
+// let s = "hit"
+// let n = "cog"
+// let arr = ["hot","dot","dog","lot","log","cog"]
 
-console.log(decodeString(s4))
+console.log(ladderLength(s,n, arr))
