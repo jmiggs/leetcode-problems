@@ -421,60 +421,162 @@
 
 // console.log(decodeString(s4))
 
-var ladderLength = function(beginWord, endWord, wordList) {
+// var ladderLength = function(beginWord, endWord, wordList) {
 
-  let alpha = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  let dict = new Set(wordList);
-  let visited = new Set();
+//   let alpha = 'abcdefghijklmnopqrstuvwxyz'.split('');
+//   let dict = new Set(wordList);
   
-  if (!dict.has(endWord)) return 0
+//   if (!dict.has(endWord)) return 0
   
-  let q = [beginWord];
-  let level = 1;
+//   let q = [beginWord];
+//   let level = 1;
   
   
-  while (q.length) {
-      let numTimes = q.length;
+//   while (q.length) {
+//       let numTimes = q.length;
       
-      for (let i = 0; i < numTimes; i++) {
-          let ele = q.shift();
+//       for (let i = 0; i < numTimes; i++) {
+//           let ele = q.shift();
           
-          let currWord = ele.split('')
-          for (let j = 0; j < currWord.length; j++) {
-              let og = currWord[j]
-              for (const c of alpha) {
-                  // if (c === currWord[j]) continue
-                  currWord[j] = c
-                  let newWord = currWord.join('');
+//           let currWord = ele.split('')
+//           for (let j = 0; j < currWord.length; j++) {
+//               let og = currWord[j]
+//               for (const c of alpha) {
+//                   // if (c === currWord[j]) continue
+//                   currWord[j] = c
+//                   let newWord = currWord.join('');
 
-                  console.log(newWord, level)
-                  if (newWord === endWord) {
-                      return level + 1
-                  }
-                  if (dict.has(newWord)) {
-                      q.push(newWord)
-                      dict.delete(newWord)
-                  }
-              }
-              currWord[j] = og;
+//                   console.log(newWord, level)
+//                   if (newWord === endWord) {
+//                       return level + 1
+//                   }
+//                   if (dict.has(newWord)) {
+//                       q.push(newWord)
+//                       dict.delete(newWord)
+//                   }
+//               }
+//               currWord[j] = og;
               
-          } 
+//           } 
           
-      }
-      console.log(q, level)
-      level++
+//       }
+//       level++
       
-  }
+//   }
   
-  return 0   
+//   return 0   
+// };
+
+// let s = "ymain"
+// let n = "oecij"
+// let arr = ["ymann","yycrj","oecij","ymcnj","yzcrj","yycij","xecij","yecij","ymanj","yzcnj","ymain"]
+
+// // let s = "hit"
+// // let n = "cog"
+// // let arr = ["hot","dot","dog","lot","log","cog"]
+
+// // console.log(ladderLength(s,n, arr))
+
+// var maximalSquare = function(matrix) {
+//   let grid = [];
+  
+//   for (let i = 0; i <= matrix.length + 1;i++) {
+//       let row = new Array(matrix[0].length + 1).fill(0);
+//       grid.push(row)
+//   }
+
+//   let max = 0;
+
+//   for (let i = 0; i < matrix.length; i++) {
+//     for (let j = 0; j < matrix[0].length; j++) {
+//       if (matrix[i][j] === '1') {
+//         grid[i+1][j+1] = Math.min(grid[i][j], grid[i+1][[j]], grid[i][j+1]) + 1;
+//         max = Math.max(max, grid[i+1][j+1])
+//       }
+//     }
+//   }
+
+//   return max*max
+
+// };
+// // let matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+// // console.log(maximalSquare(matrix))
+
+// var calculate = function(s) {
+    
+// };
+
+// /*
+//   4 - 2 - 6 / 2 + 1 * 5 + 4/2 => -15
+
+//   resStack
+//   numstack 2 3
+//   opstack -
+//   res = 
+
+//   check the next char if / or * and opstack pop is + or -
+
+
+// */
+
+// var lengthOfLIS = function(nums) {
+//   if (nums.length === 0) return 0
+  
+//   let max = 0;
+  
+//   for (let i = 0; i < nums.length; i++) {
+//     let curr = 1;
+//     for  (let j = i + 1; j < nums.length; j++) {
+//       if (nums[i] < nums[j]) curr++
+//     }
+    
+//     max = Math.max(max, curr)
+//   }
+  
+//   return max
+// };
+
+// let arr = [10,9,2,5,3,7,101,18]
+// console.log(lengthOfLIS(arr))
+
+
+var searchRange = function(nums, target) {
+  // use bsearch to find the left most index
+      // if searching for left and target = mid keep searching left
+  // same for right idx
+      // keep searching right  if target >= mid 
+  // check if left idx == nums for not found edge case && bondaries
+
+const helper = function (nums, bool) {
+  let left = 0;
+  let right = nums.length - 1;
+
+
+  while (left < right) {
+    let mid = Math.floor((left + right) / 2 ) 
+    if (target < nums[mid] || (bool && target === nums[mid])) {
+      right = mid;
+    } else {
+      left = mid + 1;
+    }
+    console.log(left, right, bool, mid)
+  }
+
+  
+  return left
+}
+
+let leftIdx = helper(nums, true)
+
+if (leftIdx === nums.length - 1 || nums[leftIdx] !== target) {
+  return [-1,-1]
+}
+
+let right = helper(nums, false) - 1
+
+return [leftIdx, right]
 };
 
-let s = "ymain"
-let n = "oecij"
-let arr = ["ymann","yycrj","oecij","ymcnj","yzcrj","yycij","xecij","yecij","ymanj","yzcnj","ymain"]
+let arr = [ 1, 2, 5, 5, 5, 9]
 
-// let s = "hit"
-// let n = "cog"
-// let arr = ["hot","dot","dog","lot","log","cog"]
-
-console.log(ladderLength(s,n, arr))
+console.log(searchRange(arr, 5))
