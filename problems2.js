@@ -540,43 +540,440 @@
 // console.log(lengthOfLIS(arr))
 
 
-var searchRange = function(nums, target) {
-  // use bsearch to find the left most index
-      // if searching for left and target = mid keep searching left
-  // same for right idx
-      // keep searching right  if target >= mid 
-  // check if left idx == nums for not found edge case && bondaries
+// var searchRange = function(nums, target) {
+//   // use bsearch to find the left most index
+//       // if searching for left and target = mid keep searching left
+//   // same for right idx
+//       // keep searching right  if target >= mid 
+//   // check if left idx == nums for not found edge case && bondaries
 
-const helper = function (nums, bool) {
-  let left = 0;
-  let right = nums.length - 1;
+// const helper = function (nums, bool) {
+//   let left = 0;
+//   let right = nums.length - 1;
 
 
-  while (left < right) {
-    let mid = Math.floor((left + right) / 2 ) 
-    if (target < nums[mid] || (bool && target === nums[mid])) {
-      right = mid;
-    } else {
-      left = mid + 1;
-    }
-    console.log(left, right, bool, mid)
-  }
+//   while (left < right) {
+//     let mid = Math.floor((left + right) / 2 ) 
+//     if (target < nums[mid] || (bool && target === nums[mid])) {
+//       right = mid;
+//     } else {
+//       left = mid + 1;
+//     }
+//     console.log(left, right, bool, mid)
+//   }
 
   
-  return left
-}
+//   return left
+// }
 
-let leftIdx = helper(nums, true)
+// let leftIdx = helper(nums, true)
 
-if (leftIdx === nums.length - 1 || nums[leftIdx] !== target) {
-  return [-1,-1]
-}
+// if (leftIdx === nums.length - 1 || nums[leftIdx] !== target) {
+//   return [-1,-1]
+// }
 
-let right = helper(nums, false) - 1
+// let right = helper(nums, false) - 1
 
-return [leftIdx, right]
+// return [leftIdx, right]
+// };
+
+// let arr = [ 1, 2, 5, 5, 5, 9]
+
+// console.log(searchRange(arr, 5))
+
+// var maxAreaOfIsland = function(grid) {
+  
+  
+//   const bfs = function(i, j, grid) {
+//     let q = [[i,j]];
+//     let area = 0;
+//     let dirs = [[1,0], [-1,0], [0,1], [0,-1]];
+//     while (q.length) {
+//       let l = q.length;
+//       area += l
+//       for (let i = 0; i < l; i++) {
+//         let current = q.shift();
+  
+//         for (const dir of dirs) {
+          
+//           let newR = current[0] + dir[0];
+//           let newC = current[1] + dir[1];
+          
+//           if (newR < grid.length && newR >= 0 && newC < grid[0].length && newC >= 0) {
+//             if (grid[newR][newC] === 1) {
+//               grid[newR][newC] = 0;
+//               q.push([newR,newC])
+//             }
+//           }
+//         }
+//         console.log(current)
+//         grid[current[0]][current[1]] = 0;
+//       }
+//     }
+    
+//     return area
+//   }
+  
+//   let maxArea = 0
+  
+  
+//   for (let i = 0; i < grid.length; i++) {
+//     for (let j = 0; j < grid[0].length; j++) {
+//       if (grid[i][j] === 1) {
+//         let area = bfs(i, j, grid);
+//         maxArea = Math.max(area, maxArea)
+//       }
+//     }
+//   }
+
+//   return maxArea
+// };
+
+// let arr = [
+//           [1,1,0,0,0],
+//           [1,1,0,0,0],
+//           [0,0,0,1,1],
+//           [0,0,0,1,1]]
+// console.log(maxAreaOfIsland(arr))
+
+
+var compress = function(chars) {
+  
+  let i = 0;
+  while (i < chars.length) {
+    let currChar = chars[i];
+    let j = i + 1;
+    let count = 1;
+    while (j < chars.length && chars[j] === currChar) {
+      count++
+      j++
+    }
+    let countStr = String(count)
+    if (count > 1 && count < 10) {
+      chars.splice(i+1, count - 1, countStr)
+      i += 2
+    } else if (count > 9) {
+        countStr = countStr.split('') 
+        chars.splice(i+1, count - 1)
+        let n = i + 1
+        for (const c of countStr) {
+          chars.splice(n, 0, c)
+          n++
+        }
+        i += 3
+        // chars.splice(i+1, count - 1, countStr)
+    } else if (count === 1) {
+      i++
+    }
+
+
+  }
+  
+  console.log(chars)
+  return chars.length
 };
 
-let arr = [ 1, 2, 5, 5, 5, 9]
+let arr = [
+  "b",
+  "l",
+  "l",
+  "l",
+  "l",
+  "l",
+  "l",
+  "4",
+  "4",
+  "W",
+  "W",
+  "&",
+  "d",
+  "d",
+  "d",
+  "@",
+  "D",
+  "D",
+  ".",
+  ".",
+  ".",
+  "8",
+  "8",
+  "8",
+  "U",
+  "V",
+  ">",
+  "J",
+  "J",
+  "k",
+  "H",
+  "H",
+  "=",
+  "l",
+  "[",
+  "[",
+  "[",
+  "[",
+  "[",
+  "[",
+  "[",
+  "a",
+  "a",
+  "'",
+  "<",
+  "[",
+  "[",
+  "y",
+  "V",
+  "l",
+  "l",
+  "'",
+  "$",
+  "E",
+  "`",
+  "v",
+  "k",
+  "E",
+  "E",
+  "t",
+  "t",
+  "t",
+  "t",
+  "t",
+  "=",
+  "=",
+  "0",
+  "C",
+  "a",
+  "l",
+  "l",
+  "l",
+  "r",
+  "R",
+  "M",
+  "M",
+  "c",
+  "c",
+  "c",
+  "A",
+  "A",
+  "S",
+  "9",
+  "9",
+  "9",
+  "9",
+  ")",
+  ")",
+  "\\",
+  "s",
+  "\\",
+  "\\",
+  "y",
+  "W",
+  "W",
+  "W",
+  "J",
+  "J",
+  "J",
+  "J",
+  "6",
+  "6",
+  "<",
+  "<",
+  "E",
+  "u",
+  "e",
+  "e",
+  "e",
+  "e",
+  "e",
+  "e",
+  "e",
+  "e",
+  "e",
+  "9",
+  "9",
+  "9",
+  "9",
+  "R",
+  "8",
+  "?",
+  "F",
+  "3",
+  "&",
+  "&",
+  "&",
+  "&",
+  "f",
+  "%",
+  "%",
+  "2",
+  "2",
+  "2",
+  ")",
+  ")",
+  ")",
+  "J",
+  "p",
+  "|",
+  "D",
+  "D",
+  "D",
+  "s",
+  "t",
+  "V",
+  "V",
+  "?",
+  "^",
+  "^",
+  "S",
+  "3",
+  "3",
+  "3",
+  "3",
+  "h",
+  "*",
+  "|",
+  "|",
+  "b",
+  "b",
+  "a",
+  "a",
+  "a",
+  "r",
+  "r",
+  "r",
+  "r",
+  "J",
+  ".",
+  "^",
+  "^",
+  "~",
+  "g",
+  ":",
+  ":",
+  ":",
+  "(",
+  "4",
+  "4",
+  "4",
+  "4",
+  "w",
+  "w",
+  "w",
+  "w",
+  "w",
+  "w",
+  "w",
+  "C",
+  "?",
+  "=",
+  "d",
+  "L",
+  ":",
+  "0",
+  "0",
+  "c",
+  "w",
+  "w",
+  "w",
+  "w",
+  "w",
+  "w",
+  "{",
+  "{",
+  "t",
+  "k",
+  "k",
+  "k",
+  "&",
+  "&",
+  "&",
+  "h",
+  "j",
+  "j",
+  "j",
+  "0",
+  "3",
+  "l",
+  ";",
+  ";",
+  ";",
+  ";",
+  ";",
+  ".",
+  ".",
+  ".",
+  "%",
+  "1",
+  "1",
+  "1",
+  "l",
+  "9",
+  "?",
+  "?",
+  "?",
+  "t",
+  ">",
+  "E",
+  "N",
+  "N",
+  "@",
+  ">",
+  ".",
+  ".",
+  "I",
+  "a",
+  "a",
+  "a",
+  "a",
+  "B",
+  "7",
+  "7",
+  "{",
+  "o",
+  "o",
+  "-",
+  "+",
+  "+",
+  "+",
+  "+",
+  "o",
+  "o",
+  "}",
+  "B",
+  "B",
+  "r",
+  "r",
+  "r",
+  "q",
+  "4",
+  "4",
+  "4",
+  "9",
+  "W",
+  "W",
+  "W",
+  "W",
+  "W",
+  "'",
+  "'",
+  "'",
+  "g",
+  "J",
+  "(",
+  "(",
+  "(",
+  "(",
+  "t",
+  "t",
+  "?",
+  ";",
+  "g",
+  "g",
+  "g",
+  "0",
+  "]",
+  "]",
+  "]"
+  ]
 
-console.log(searchRange(arr, 5))
+  console.log(compress(arr))
