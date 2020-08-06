@@ -117,4 +117,176 @@ var numberToWords = function(num) {
 /*
     46, 100, 200
 */
-console.log(numberToWords(1234567))
+// console.log(numberToWords(1234567))
+function ListNode(val, next) {
+    this.val = (val===undefined ? 0 : val)
+    this.next = (next===undefined ? null : next)
+}
+
+var reorderList = function(head) {
+    // slice list in half
+    
+    let fast = head;
+    let slow = fast;
+    
+    while (fast && fast.next) {
+        fast = fast.next.next;
+        slow = slow.next
+    }
+
+    
+    let prev = null;
+    
+    // reverse second half
+    while (slow) {
+        let temp = slow.next;
+        slow.next = prev;
+        prev = slow;
+        slow = temp;
+    }
+
+
+    let second = prev;
+    let curr = head;
+
+
+    while (second.next) {
+        let temp = curr.next;
+        curr.next = second;
+        curr = temp;
+
+        temp = second.next;
+        second.next = curr;
+        second = temp;
+    }
+
+    return head
+    
+};
+
+// let a = new ListNode(1);
+// let b = new ListNode(2);
+// let c = new ListNode(3);
+// let d = new ListNode(4);
+// let e = new ListNode(5);
+// let f = new ListNode(6);
+
+// a.next = b;
+// b.next = c;
+// c.next = d;
+// d.next = e;
+// e.next = f;
+
+// console.log(reorderList(a))
+
+var findItinerary = function(tickets) {
+    tickets.sort((a,b) => {
+        return a[1].localeCompare(b[1])
+    })
+
+    let flights = new Map();
+
+    for (let [from, to] of tickets) {
+        if (flights.has(from)) {
+            let current = flights.get(from)
+            current.push(to)
+            flights.set(from, current)
+        } else {
+            flights.set(from, [to])
+        }
+    }
+
+    let itenerary = ['JFK'];
+    while (true) {
+        let from = itenerary[itenerary.length - 1];
+        let destinations = flights.get(from);
+        console.log(from, destinations, itenerary)
+        if (!destinations || destinations.length === 0) break
+        let n = 0;
+        let nextDestination = destinations[n];
+
+        while (!flights.has(nextDestination) && n < destinations.length - 1) {
+            n++
+            nextDestination = destinations[n]
+        }
+        destinations.splice(n - 1, 1)
+        // console.log(from, destinations, flights)
+
+        flights.set(from, destinations)
+
+        itenerary.push(nextDestination)
+    }
+
+    // JFK, ATL, JFK, SFO, ATL, SFO
+   
+    return itenerary
+};
+
+// let ex = [["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
+// let ex2 = [["JFK","KUL"],["JFK","NRT"],["NRT","JFK"]]
+
+// console.log(findItinerary(ex2))
+// console.log(findItinerary(ex))
+
+
+var longestStrChain = function(words) {
+    let dict = new Map();
+    words.sort((a,b) => a.length - b.length)
+    console.log(words)
+    for (let word of words) {
+        let letters =  new Set()
+        for (let letter of word) {
+            letters.add(letter)
+        }
+        dict.set(word, letters)
+    }
+
+    let q = [];
+    let l = words[0].length;
+
+    let currLevel = words.filter(a => a.length === l)
+    q.push(...currLevel)
+
+    let chain = 1;
+
+    while (q.length) {
+        let toProcess = q;
+        let nextUp = words.filter(a => a.length === l + 1);
+        if (nextUp.length === 0) break
+
+        if (l === 8) console.log(nextUp, toProcess, chain)
+        // if (chain === 6) console.log(nextUp, toProcess, chain)
+        console.log(nextUp, toProcess, chain)
+
+        let nextQ = [];
+        while (toProcess.length) {
+            let currWord = toProcess.shift();
+
+            for (let nextWord of nextUp) {
+                let nextLetters = dict.get(nextWord)
+                let shouldPush = true;
+                for (let letter of currWord) {
+                    if (!(nextLetters.has(letter))) {
+                        shouldPush = false;
+                        break
+                    }
+                }
+                if (shouldPush) nextQ.push(nextWord)  
+            }
+        }
+
+        if (nextQ.length === 0) break
+
+        q = nextQ
+        chain++
+        l++
+    }
+
+    return chain
+};
+
+let a = ["ksqvsyq","ks","kss","czvh","zczpzvdhx","zczpzvh","zczpzvhx","zcpzvh","zczvh","gr","grukmj","ksqvsq","gruj","kssq","ksqsq","grukkmj","grukj","zczpzfvdhx","gru"]
+let b = ["a","b","ba","bca","bda","bdca"]
+let c = ["sgtnz","sgtz","sgz","ikrcyoglz","ajelpkpx","ajelpkpxm","srqgtnz","srqgotnz","srgtnz","ijkrcyoglz"]
+console.log(longestStrChain(a))
+
