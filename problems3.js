@@ -229,64 +229,221 @@ var findItinerary = function(tickets) {
 // console.log(findItinerary(ex))
 
 
-var longestStrChain = function(words) {
-    let dict = new Map();
-    words.sort((a,b) => a.length - b.length)
-    console.log(words)
-    for (let word of words) {
-        let letters =  new Set()
-        for (let letter of word) {
-            letters.add(letter)
-        }
-        dict.set(word, letters)
-    }
+// var longestStrChain = function(words) {
+//     let dict = new Map();
+//     words.sort((a,b) => a.length - b.length)
+//     console.log(words)
+//     for (let word of words) {
+//         let letters =  new Set()
+//         for (let letter of word) {
+//             letters.add(letter)
+//         }
+//         dict.set(word, letters)
+//     }
 
-    let q = [];
-    let l = words[0].length;
+//     let q = [];
+//     let l = words[0].length;
 
-    let currLevel = words.filter(a => a.length === l)
-    q.push(...currLevel)
+//     let currLevel = words.filter(a => a.length === l)
+//     q.push(...currLevel)
 
-    let chain = 1;
+//     let chain = 1;
 
+//     while (q.length) {
+//         let toProcess = q;
+//         let nextUp = words.filter(a => a.length === l + 1);
+//         if (nextUp.length === 0) break
+
+//         if (l === 8) console.log(nextUp, toProcess, chain)
+//         // if (chain === 6) console.log(nextUp, toProcess, chain)
+//         console.log(nextUp, toProcess, chain)
+
+//         let nextQ = [];
+//         while (toProcess.length) {
+//             let currWord = toProcess.shift();
+
+//             for (let nextWord of nextUp) {
+//                 let nextLetters = dict.get(nextWord)
+//                 let shouldPush = true;
+//                 for (let letter of currWord) {
+//                     if (!(nextLetters.has(letter))) {
+//                         shouldPush = false;
+//                         break
+//                     }
+//                 }
+//                 if (shouldPush) nextQ.push(nextWord)  
+//             }
+//         }
+
+//         if (nextQ.length === 0) break
+
+//         q = nextQ
+//         chain++
+//         l++
+//     }
+
+//     return chain
+// };
+
+// let a = ["ksqvsyq","ks","kss","czvh","zczpzvdhx","zczpzvh","zczpzvhx","zcpzvh","zczvh","gr","grukmj","ksqvsq","gruj","kssq","ksqsq","grukkmj","grukj","zczpzfvdhx","gru"]
+// let b = ["a","b","ba","bca","bda","bdca"]
+// let c = ["sgtnz","sgtz","sgz","ikrcyoglz","ajelpkpx","ajelpkpxm","srqgtnz","srqgotnz","srgtnz","ijkrcyoglz"]
+// console.log(longestStrChain(a))
+
+
+var floodFill = function(image, sr, sc, newColor) {
+    const dirs = [[1,0], [-1,0], [0,1], [0,-1]];
+    let h = image.length;
+    let w = image[0].length;
+    let tag = image[sr][sc];
+    
+    let q = [[sr, sc]];
+    
     while (q.length) {
-        let toProcess = q;
-        let nextUp = words.filter(a => a.length === l + 1);
-        if (nextUp.length === 0) break
+        let numToProcess = q.length;
 
-        if (l === 8) console.log(nextUp, toProcess, chain)
-        // if (chain === 6) console.log(nextUp, toProcess, chain)
-        console.log(nextUp, toProcess, chain)
-
-        let nextQ = [];
-        while (toProcess.length) {
-            let currWord = toProcess.shift();
-
-            for (let nextWord of nextUp) {
-                let nextLetters = dict.get(nextWord)
-                let shouldPush = true;
-                for (let letter of currWord) {
-                    if (!(nextLetters.has(letter))) {
-                        shouldPush = false;
-                        break
-                    }
+        for (let i = 0; i < numToProcess; i++) {
+            let current = q.shift();
+            image[current[0]][current[1]] = newColor;
+            
+            for (const dir of dirs) {
+                let newR = current[0] + dir[0];
+                let newC = current[1] + dir[1];
+                console.log(current) 
+                
+                if (newR < 0 || newR >= h || newC < 0 || newC >= w) continue;
+                
+                if (image[newR][newC] === tag) {
+                    q.push([newR, newC])
+                    image[newR][newC] = newColor;
                 }
-                if (shouldPush) nextQ.push(nextWord)  
             }
         }
 
-        if (nextQ.length === 0) break
-
-        q = nextQ
-        chain++
-        l++
+        console.log(image)
     }
-
-    return chain
+    
+    return image
 };
 
-let a = ["ksqvsyq","ks","kss","czvh","zczpzvdhx","zczpzvh","zczpzvhx","zcpzvh","zczvh","gr","grukmj","ksqvsq","gruj","kssq","ksqsq","grukkmj","grukj","zczpzfvdhx","gru"]
-let b = ["a","b","ba","bca","bda","bdca"]
-let c = ["sgtnz","sgtz","sgz","ikrcyoglz","ajelpkpx","ajelpkpxm","srqgtnz","srqgotnz","srgtnz","ijkrcyoglz"]
-console.log(longestStrChain(a))
 
+// let a = [[0,0,0],
+// [0,1,1]]
+
+// // [[0,0,0],[0,1,1]]
+// // 1
+// // 1
+// // 1
+
+// console.log(floodFill(a, 1, 1, 1));
+
+var minKnightMoves = function(x, y) {
+    const dirs = [
+        [2,1],
+        [2,-1],
+        [1,2],
+        [1,2],
+        [-1,2],
+        [-2,1],
+        [-2,-1],
+        [-1,-2]
+    ];
+ 
+
+    var distanceHelper = function(x1, y1, x2, y2) {
+        let dimension1 = Math.abs(x2 - x1);
+        let dimension2 = Math.abs(y2 - y1);
+
+        return Math.pow(dimension1, 2) + Math.pow(dimension2, 2)
+    }
+    
+    let lastMinDistance = Infinity;
+    let count = 0
+    let q = [[x,y]];
+    let visited = new Set();
+    
+    while (q.length) {
+        console.log(q)
+        let times = q.length;
+        
+        let thisLevelMinDistance = lastMinDistance;
+        
+        for (let i = 0; i < times; i++) {
+            let currPosition = q.shift();
+            visited.add(currPosition.join(''))
+            
+            for (const dir of dirs) {
+                let newX = currPosition[0] + dir[0];
+                let newY = currPosition[1] + dir[1];
+
+                let newDistance = distanceHelper(newX, newY, 0, 0);
+                // if (count < 50) console.log(newX, newY, currPosition, visited)
+
+                if (newX === 0 && newY === 0) return count + 1
+
+                if (newDistance < thisLevelMinDistance && !(visited.has([newX, newY].join('')))) {
+                    q.push([newX, newY])
+                    thisLevelMinDistance = Math.min(thisLevelMinDistance, newDistance)
+                }
+            } 
+        }
+        lastMinDistance = thisLevelMinDistance;
+
+        count++
+    }
+
+    return count
+};
+
+// console.log(minKnightMoves(1,2))
+// console.log(minKnightMoves(5,5))
+// console.log(minKnightMoves(1,2))
+// console.log(minKnightMoves(-5,-5))
+// console.log(minKnightMoves(270,-21))
+// console.log(minKnightMoves(130, -86))
+// console.log(minKnightMoves(2, 112))
+
+var lengthOfLIS = function(nums) {
+    let memo = [];
+    for (let i = 0; i < nums.length + 1; i++) {
+        let row = new Array(nums.length).fill(-1);
+        memo.push(row)
+    }
+
+    return recursiveWithMemo(nums, -1, 0, memo)
+    // return recursive(nums, -Infinity, 0)
+};
+
+function recursive(nums, prev, currPos) {
+    if (currPos === nums.length) {
+        return 0
+    }
+    let taken = 0;
+    if (nums[currPos] > prev) {
+        taken = 1 + recursive(nums, nums[currPos], currPos + 1);
+    }
+
+    let not = recursive(nums, prev, currPos + 1);
+    return Math.max(taken, not)
+}
+
+
+function recursiveWithMemo(nums, prevIdx, currPos, memo) {
+    if (currPos === nums.length) {
+        return 0
+    }
+
+    if (memo[prevIdx + 1][currPos] >= 0) return memo[prevIdx + 1][currPos]
+    let taken = 0;
+    if (prevIdx < 0 || nums[currPos] > nums[prevIdx]) {
+        taken = 1 + recursiveWithMemo(nums, currPos, currPos + 1, memo);
+    }
+
+    let not = recursiveWithMemo(nums, prevIdx, currPos + 1, memo);
+    memo[prevIdx + 1][currPos] = Math.max(taken, not)
+    return memo[prevIdx + 1][currPos]
+}
+
+
+let nums = [10,9,2,5,3,7,101,18]
+console.log(lengthOfLIS(nums))
