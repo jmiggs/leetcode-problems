@@ -445,5 +445,183 @@ function recursiveWithMemo(nums, prevIdx, currPos, memo) {
 }
 
 
-let nums = [10,9,2,5,3,7,101,18]
-console.log(lengthOfLIS(nums))
+// let nums = [10,9,2,5,3,7,101,18]
+// console.log(lengthOfLIS(nums))
+
+
+var maxProduct = function(nums) {
+
+    let max = nums[0];
+    
+    let minDP = nums.slice(0);
+    let maxDP = nums.slice(0);
+    
+    for (let i = 1; i < nums.length; i++) {
+        console.log(i, nums.length)
+        
+        let fromMax = Math.max(nums[i], minDP[i-1]*nums[i], maxDP[i-1]*nums[i]);
+        let fromMin = Math.min(nums[i], minDP[i-1]*nums[i], maxDP[i-1]*nums[i]);
+        
+        minDP[i] = fromMin;
+        maxDP[i] = fromMax;
+        
+        max = Math.max(fromMax, fromMin, max)
+    }
+    
+    return max
+    
+};
+
+// console.log(maxProduct([2,3,-2,4]))
+
+
+var reorganizeString = function(S) {
+    // use maxheap
+    
+    // keep adding the most frequent with the next most frequent until heap is 1
+
+    let letters = new MaxHeap();
+    
+    let lettersCount = new Map();
+    
+    for (const letter of S) {
+        if (lettersCount.has(letter)) {
+            let currentAmount = lettersCount.get(letter) + 1;
+            lettersCount.set(letter, currentAmount)
+        } else {
+            lettersCount.set(letter, 1)
+        }
+    }
+
+    let half = Math.ceil(S.length / 2)
+    
+    for (let [key, value] of lettersCount) {
+        if (value > half) return ""
+        letters.insert([key, value])
+    }
+
+    
+    
+    
+    let resultString = "";
+    
+    while (letters.heap.length > 1) {
+        console.log(letters)
+        let mostFrequent = letters.remove();
+        let secondFrequent = letters.remove();
+
+        console.log()
+        
+        resultString += mostFrequent[0];
+        resultString += secondFrequent[0];
+        
+        mostFrequent[1] = mostFrequent[1] - 1;
+        secondFrequent[1] = secondFrequent[1] - 1;
+        
+        if (mostFrequent[1] > 0) {
+            letters.insert(mostFrequent)
+        }
+
+        if (secondFrequent[1] > 0) {
+            letters.insert(secondFrequent)
+        }
+    }
+    // console.log(letters)
+    
+    if (letters.heap.length && letters.heap[0][1] > 1) {
+        return ""
+    } else if (letters.heap.length === 1) {
+        return resultString + letters.remove()[0]
+    } else if (letters.heap.length === 0) {
+        return resultString
+    }
+};
+
+
+class MaxHeap {
+    constructor() {
+        this.heap = [];
+        this.lambda = function(a, b) {
+            if (a[1] > b[1]) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
+    siftUp(currIdx, heap) {
+        let parent = Math.floor((currIdx - 1) / 2)
+        while (currIdx > 0 && this.lambda(heap[currIdx], heap[parent])) {
+            this.swap(currIdx, parent, heap)
+            currIdx = parent;
+            parent = Math.floor((currIdx - 1) / 2);
+        }
+    }
+    
+    siftDown(currIdx, endIdx, heap) {
+        let child1 = Math.floor((currIdx * 2) + 1);
+        while (child1 <= endIdx) {
+            let child2 = Math.floor((currIdx * 2) + 2) > endIdx? -1 : Math.floor((currIdx * 2) + 2)
+            let toSwap;
+            if (child2 !== -1 && this.lambda(heap[child2], heap[child1]) ) {
+                toSwap = child2;
+            } else {
+                toSwap = child1;
+            }
+
+            // console.log(toSwap)
+            
+            if (this.lambda(heap[toSwap], heap[currIdx])) {
+                this.swap(toSwap, currIdx, heap)
+                currIdx = toSwap;
+                child1 = Math.floor((currIdx * 2) + 1);
+            } else {
+                return
+            }
+        }
+    }
+    
+    remove() {
+        // console.log(this.heap)
+        this.swap(0, this.heap.length - 1, this.heap)
+        let res = this.heap.pop();
+        this.siftDown(0, this.heap.length - 1, this.heap)
+        return res
+    }
+    
+    insert(item) {
+        this.heap.push(item)
+        this.siftUp(this.heap.length - 1, this.heap)
+    }
+    
+    size() {
+        return this.heap.length;
+    }
+    
+    swap(i, j, arr) {
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+let str = "aab"
+let str1 = "aaba"
+let str2 = "aahsjaglkjaaajvjbbbbxs"
+let str3 = "vvvlo"
+
+// console.log(reorganizeString(str2))
+// console.log(reorganizeString(str1))
+// console.log(reorganizeString(str))
+console.log(reorganizeString(str3))
+
+/*
+aa bb
+
+a
+
+
+*/
+
+
+
