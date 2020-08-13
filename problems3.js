@@ -605,15 +605,15 @@ class MaxHeap {
         arr[j] = temp;
     }
 }
-let str = "aab"
-let str1 = "aaba"
-let str2 = "aahsjaglkjaaajvjbbbbxs"
-let str3 = "vvvlo"
+// let str = "aab"
+// let str1 = "aaba"
+// let str2 = "aahsjaglkjaaajvjbbbbxs"
+// let str3 = "vvvlo"
 
 // console.log(reorganizeString(str2))
 // console.log(reorganizeString(str1))
 // console.log(reorganizeString(str))
-console.log(reorganizeString(str3))
+// console.log(reorganizeString(str3))
 
 /*
 aa bb
@@ -623,5 +623,138 @@ a
 
 */
 
+var asteroidCollision = function(asteroids) {
+    let stack = [];
+    let i = 0;
+    
+    while (i < asteroids.length) {
+        let currentAst = asteroids[i];
+        
+        if (stack.length === 0) {
+            stack.push(currentAst)
+            i++
+        } else {
+            
+            if (currentAst > 0 ) {
+                stack.push(currentAst)
+                i++
+                continue
+            }
+            let last = stack[stack.length - 1];
+            let lastMag = Math.abs(last);
+            let curMag = Math.abs(currentAst);
+            
+            if (last < 0) {
+                stack.push(currentAst)
+                i++
+                continue
+            }
+            
+            if (lastMag === curMag) {
+                stack.pop()
+            } else if (lastMag < curMag)  {
+                stack.pop()
+                continue
+            }
+
+            i++
+        }
+    }
+    
+    return stack
+};
+
+// let asteroids = [5, 10, -5]
+
+// asteroidCollision(asteroids)
+
+// let arr = [
+//     [1,2,3,4],
+//     [5,6,7,8]
+// ]
+
+function transpose(arr) {
+    let res = [];
+
+    for (let i = 0; i < arr[0].length; i++) {
+        let row = [];
+        for (let j = 0; j < arr.length; j++) {
+            row.push(arr[j][i])
+        }
+        res.push(row)
+    }
+    console.log(res)
+}
+
+// transpose(arr)
+/*
+15
+23
+37
+48
+*/
 
 
+var isPalindrome = function(head) {
+    if (!head) return true
+    
+    let slow = head;
+    let fast = head;
+    let count = 0;
+    
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+        count++
+    }
+
+    fast = head;
+    let halfHolder = slow
+
+    while (slow) {
+        count++
+        slow = slow.next
+    }
+
+    console.log(count)
+    
+    function check(head1, head2) {
+        console.log(head1, head2)
+        while(head1) {
+            if (head1.val !== head2.val) return false
+            head1 = head1.next;
+            head2 = head2.next;
+        }
+
+        return true
+    }
+
+    if (count % 2 !== 0) {
+        let head1 = halfHolder.next;
+        let head2 = head;
+        return check(head1, head2)
+    } else if (count % 2 === 0) {
+        return check(halfHolder, head)
+    }
+};
+
+function ListNode(val, next) {
+    this.val = (val===undefined ? 0 : val)
+    this.next = (next===undefined ? null : next)
+}
+
+let a = new ListNode(1)
+let b = new ListNode(2)
+let c = new ListNode(2)
+let d = new ListNode(1)
+// let e = new ListNode(1)
+
+a.next = b
+b.next = c
+c.next = d
+// d.next = e
+
+console.log(isPalindrome(a))
+
+
+123 0 321
